@@ -38,33 +38,6 @@ Sincerely,
 Paul (probably)
 
 
-## Future Considerations
-
-1. Only use information/posts from people before 2022 to capture the persons true essence rather than if they started using LLMs to make content.
-
-2. Create a tab where users can 'facetime' by passing in an image of the person with the LLM trained in their tone of voice.
-
-
-### Tasks
-
-1. Develope docker containers for front end and backend for local deployment ..........Done
-
-2. Create initial simple vite app .....................................................Done
-
-3. Create trained models with a variety of LLM models and supply multiple options
-
-4. 
-
-5. Analyze train and test data for BLEU score evaluation
-
-6. Train models options including different llms: llama2 (Meta free), chatgpt, grok, deepseek, claude (antrhopic), gemini(google), flowise,npx  etc
-
-7. Dashboard for training/testing, dashboard for evaluation, dashboard for trained models and using them
-
-8. Add ability for mutlimodal models: images, text, videos etc
-
-9. Transister chip developement code
-
 
 ## Architecture Decisions
 
@@ -126,6 +99,21 @@ GEMINI_API_KEY='Your-Gemini-API-Key'
 
 ## Future Considerations
 
-Further development could be working toward connecting to Outlook and Teams server APIs to
-further improve upon the models accuracy. Models/micro agents for different tasks can also be trained and
-containerized for deployment.
+
+1. Only use information/posts from people before 2022 to capture the persons true essence rather than if they started using LLMs to make content.
+
+2. Create a tab where users can 'facetime' by passing in an image of the person with the LLM trained in their tone of voice.
+
+3.  Models/micro agents for different tasks can also be trained and containerized for deployment.
+
+
+### Tasks
+
+
+1. Train models options including different llms: llama2 (Meta free), chatgpt, grok, deepseek, claude (antrhopic), gemini(google), flowise,npx  etc
+
+2. Dashboard for training/testing, dashboard for evaluation, dashboard for trained models and using them. Analyze for time, accuracy, etc
+
+3. Add ability for mutlimodal models: images, text, videos etc
+
+4. Transister chip developement code ( ASK ME ABOUT THIS PROJECT IM WORKING ON)
