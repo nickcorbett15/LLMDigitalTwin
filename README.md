@@ -37,6 +37,31 @@ Whoever I am, one thing’s clear: Nick’s the guy,
 Sincerely,
 Paul (probably)
 
+## Running the LLM Digital Twins
+
+To run this project docker needs to be installed on your machine you can find the instructions here:
+https://www.docker.com/get-started/
+
+You can find the instructions to run each component separatly or you can run the entire architecture.
+
+### Entire Project
+
+
+### Frontend
+
+To run the frontend directly change to the front end directory in your terminal and run the following:
+
+```docker build -t <my-image-name>  . ```
+
+changing `<my-image-name>` to whatever you want to call the image. Then run the build image as a container
+mapping the ports to available ports on your machine.
+
+```docker run -d --name adllm-cont -p 5173:5173  adllm```
+
+You can also run using docker compose within this directory for development purposes:
+
+```docker-compose up --build```
+
 
 
 ## Architecture Decisions
