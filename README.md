@@ -40,15 +40,10 @@ Paul (probably)
 
 ## Future Considerations
 
-1. Only use information from before 2022 to capture the persons true essence rather than if they started using LLMs to make content.
+1. Only use information/posts from people before 2022 to capture the persons true essence rather than if they started using LLMs to make content.
 
-2. Create a tab where users can factime with the LLM trained in their tone of voice.
+2. Create a tab where users can 'facetime' by passing in an image of the person with the LLM trained in their tone of voice.
 
-
-## TODO
- - 
- - 
-)
 
 ### Tasks
 
@@ -74,6 +69,27 @@ Paul (probably)
 ## Architecture Decisions
 
 
+Below is a simple digram of the app currently in development. The front end will have tabs to various
+chatbots which you can interact with as well as a tab to add new Markdown files to include in the
+shared vectorized RAG knowledge base. Additionally I hope to include an analysis tab to compare and
+contrast the models metrics for speed and accuracy on said increased knowledge bases.
+
+Initially I wrote code to connect to ChatGPTs API and also intend to connect to a dockerized deployment
+of llama Metas open source LLM, so that users wont have to pay to have an api key for other various LLMs.
+
+```
++-----------+       +----------+
+| Frontend  |<----->| Backend  |
++-----------+       +----------+
+                    /     |       \
+                  /       |        \
+                 v        v         v
+        +-----------+ +-----------+ +-----------+
+        |   GPT     | |  Gemini   | |  Llamma   |
+        +-----------+ +-----------+ +-----------+
+```
+
+
 Containerization using Docker was chosen because it allows for portability and consistency across
 different potential deployment environments should this project/code be expanded upon. Also having
 components of the code containerized will make the transition to using container services such as
@@ -88,9 +104,9 @@ well as show other skillsets I (Nicholas Corbett) have.
 
 ### Backend
 
-Despoite the frontend being programmed in Typescript using Pythons FastAPI was an obvious choice for the backend
-because Python is the primary language for AI/ML and FastAPI can be used to quickly develope APIs to
-connect to trained models.
+Despoite the frontend being programmed in Typescript using Pythons FastAPI (and potentially FastMCP) was an
+obvious choice for the backend because Python is the primary language for AI/ML and FastAPI can be used
+to quickly develope APIs to connect to trained models.
 
 ### RAG
 
@@ -110,6 +126,6 @@ GEMINI_API_KEY='Your-Gemini-API-Key'
 
 ## Future Considerations
 
-Further development could be working toward connecting to Outlook and Teams server APIs to 
-further improve upon the models accuracy. Models/micro agents for different tasks can also be trained and 
+Further development could be working toward connecting to Outlook and Teams server APIs to
+further improve upon the models accuracy. Models/micro agents for different tasks can also be trained and
 containerized for deployment.
