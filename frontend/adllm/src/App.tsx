@@ -55,13 +55,13 @@ const App = () => {
                 return (
                     <Chatbot></Chatbot>
                 );
-            case 'Model2':
+            case 'Gemini':
                 return (
-                    <div className="p-6 text-gray-700">
-                        <h2 className="text-2xl font-semibold mb-4">Model 2 Details</h2>
-                        <p>This section is dedicated to Model 2.</p>
-                        <p className="mt-2">Imagine complex data or interactive elements here.</p>
-                    </div>
+                    <Chatbot></Chatbot>
+                );
+            case 'Llama':
+                return (
+                    <Chatbot></Chatbot>
                 );
             default:
                 return null;
@@ -103,7 +103,7 @@ const App = () => {
                 {isSidebarOpen && (
                     <nav className="mt-4 flex-1">
                         <ul>
-                            {['Home', 'ChatGPT', 'Geminni', 'Lamma', 'Analysis', 'RAG Data'].map((tab) => (
+                            {['Home', 'ChatGPT', 'Gemini', 'Llama', 'Analysis', 'RAG Data'].map((tab) => (
                                 <li key={tab}>
                                     <button
                                         onClick={() => setActiveTab(tab)}
