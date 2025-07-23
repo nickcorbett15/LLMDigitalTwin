@@ -24,9 +24,15 @@ DB_NAME = 'vector_db'
 def read_root():
     return {"message": "Hello from FastAPI!"}
 
+@app.get("/load-knowledge-base")
 def load_knowledge_base(md_file):
     pass
 
+@app.get("/chat-to-openai")
+def chat_to_openai(messgae="Explain how AI works in a few works"):
+    pass
+
+@app.get("/chat-to-gemini")
 def chat_to_gemini(message="Explain how AI works in a few words"):
 
     client = genai.Client(api_key="YOUR_API_KEY")
@@ -34,8 +40,11 @@ def chat_to_gemini(message="Explain how AI works in a few words"):
     response = client.models.generate_content(
         model="gemini-2.5-flash", contents="Explain how AI works in a few words"
     )
-    print(response.text)
-def chat_to_openai():
+    
+    return response.text
+
+@app.get("/chat-to-llama")
+def chat_to_llama(message="Explain how AI works in a few words"):
     pass
 
 if __name__ == "__main__":
