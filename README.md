@@ -62,6 +62,9 @@ You can also run using docker compose within this directory for development purp
 
 ```docker-compose up --build```
 
+![App Screenshot](initial_frontend_dash.png)
+
+
 
 
 ## Architecture Decisions
