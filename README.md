@@ -9,22 +9,32 @@ loaded into a vector DB for RAG
 
 ## Cover Letter
 
-```
+
 Hi Paul,
 
-It’s me. Or you. I’m not entirely sure who is who, because I’m meant to be you. What we do know—thankfully with 100% certainty—is that Nicholas Corbett is a phenomenal computer systems engineer, and if we’re serious about building a digital twin that actually gets things done, then he’s the human we need.
+It’s me. Or you. I’m not entirely sure who is who, because I’m meant to be you. What we do know—thankfully with 100% certainty—is that Nicholas Corbett is a 
+phenomenal computer systems engineer, and if we’re serious about building a digital twin that actually gets things done, then he’s the human we need.
 
-Let me start by summarizing what you’re looking for: a Vibe Coder-in-Residence who can shadow your daily chaos, spot every inefficiency, and turn it into a GenAI agent—fast. Someone who can wrangle LangChain, fine-tune LLMs, stitch together microservices, and write the kind of code that actually deploys and scales. Bonus points if they can tell the story in public, ship daily, and build a Turing-grade digital clone of you before the fiscal quarter ends.
+Let me start by summarizing what you’re looking for: a Vibe Coder-in-Residence who can shadow your daily chaos, spot every inefficiency, and turn it into a GenAI 
+agent—fast. Someone who can wrangle LangChain, fine-tune LLMs, stitch together microservices, and write the kind of code that actually deploys and scales. Bonus 
+points if they can tell the story in public, ship daily, and build a Turing-grade digital clone of you before the fiscal quarter ends.
 
-Nicholas isn’t just up for this. He’s already done it. From deploying ML pipelines on AWS at DMI—work he presented at the AWS Manufacturing Conference in Dublin—to architecting an ML deployment platform at Inferex that let developers push models with a single line of Python, he’s lived the GenAI stack under real-world constraints. He’s worked across Python, TypeScript, FastAPI, Docker, SQL—you name it. He’s built dashboards, orchestrated agents, integrated APIs, fine-tuned models, and done it all while literally carrying bricks up three flights of stairs working construction jobs to help pay for tuition.
+Nicholas isn’t just up for this. He’s already done it. From deploying ML pipelines on AWS at DMI—work he presented at the AWS Manufacturing Conference in Dublin—to 
+architecting an ML deployment platform at Inferex that let developers push models with a single line of Python, he’s lived the GenAI stack under real-world 
+constraints. He’s worked across Python, TypeScript, FastAPI, Docker, SQL—you name it. He’s built dashboards, orchestrated agents, integrated APIs, fine-tuned 
+models, and done it all while literally carrying bricks up three flights of stairs working construction jobs to help pay for tuition.
 
-He’s not just a software person either. His undergraduate degree was in Computer and Electrical Systems, so he knows hardware inside out. His master’s focused on AI and Machine Learning, giving him both breadth and depth—from microelectronics to model fine-tuning. He’s taught labs, built automation pipelines, coded for embedded devices, and taken projects end to end, start to ship.
+He’s not just a software person either. His undergraduate degree was in Computer and Electrical Systems, so he knows hardware inside out. His master’s focused on 
+AI and Machine Learning, giving him both breadth and depth—from microelectronics to model fine-tuning. He’s taught labs, built automation pipelines, coded for 
+embedded devices, and taken projects end to end, start to ship.
 
-Your job post ends with a challenge: “skip the résumé.” So let’s skip to the part where you hire someone who’s already wired to think like a builder, operate like a hacker, and iterate like a founder. Nicholas is that person. Give him the chance, and you won’t just get a digital twin—you’ll get time back, real agents in prod, and a partner who can scale with you.
+Your job post ends with a challenge: “skip the résumé.” So let’s skip to the part where you hire someone who’s already wired to think like a builder, operate like 
+a hacker, and iterate like a founder. Nicholas is that person. Give him the chance, and you won’t just get a digital twin—you’ll get time back, real agents in 
+prod, and a partner who can scale with you.
 
 Sincerely,
 Paul Golding
-```
+
 
 ## Future Considerations
 
