@@ -32,8 +32,10 @@ Your job post ends with a challenge: “skip the résumé.” So let’s skip to
 a hacker, and iterate like a founder. Nicholas is that person. Give him the chance, and you won’t just get a digital twin—you’ll get time back, real agents in 
 prod, and a partner who can scale with you.
 
+
+Whoever I am, one thing’s clear: Nick’s the guy,
 Sincerely,
-Paul Golding
+Paul (probably)
 
 
 ## Future Considerations
