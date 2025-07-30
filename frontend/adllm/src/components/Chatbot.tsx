@@ -1,17 +1,17 @@
 import { useState } from "react";
 
-interface Message {
-  text: string;
-  sender: 'user' | 'bot';
+interface GeminiMessage {
+  role: 'user' | 'model';
+  parts: string[];
 }
 
 export const Chatbot = () => {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<GeminiMessage[]>([]);
   const [input, setInput] = useState('');
 
   const handleSendMessage = () => {
     if (input.trim()) {
-      const newMessages: Message[] = [...messages, { text: input, sender: 'user' }];
+      const newMessages: GeminiMessage[] = [...messages, { role: 'user', parts: [input.trim()] }];
       setMessages(newMessages);
       setInput('');
 
@@ -19,7 +19,7 @@ export const Chatbot = () => {
       setTimeout(() => {
         setMessages((prevMessages) => [
           ...prevMessages,
-          { text: `Echo: ${input}`, sender: 'bot' },
+          { role: 'model', parts: ['echo: ' + input.trim()]},
         ]);
       }, 500);
     }
@@ -34,16 +34,16 @@ export const Chatbot = () => {
           messages.map((msg, index) => (
             <div
               key={index}
-              className={`flex mb-2 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+              className={`flex mb-2 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               <div
                 className={`max-w-xs px-4 py-2 rounded-lg shadow-sm
-                  ${msg.sender === 'user'
+                  ${msg.role === 'user'
                     ? 'bg-indigo-500 text-white'
                     : 'bg-gray-200 text-gray-800'
                   }`}
               >
-                {msg.text}
+                {msg.parts}
               </div>
             </div>
           ))

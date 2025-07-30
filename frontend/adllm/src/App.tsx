@@ -1,12 +1,22 @@
 import React, { useState } from 'react';
-import {
-    Card,
-    Divider,
-    Text
-} from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css'; // Import Amplify UI styles
-import { Chatbot } from './components/Chatbot';
+import { createBrowserRouter, RouterProvider} from 'react-router-dom';
+import RootLayout from './pages/Root';
+import GeminiChat from './pages/Gemini';
+import RagData from './pages/RagData';
+import Analysis from './pages/Analysis';
 
+
+
+const router = createBrowserRouter([
+    { path: '/', element: <RootLayout/>},
+    { path: '/Home', element: <RootLayout/>},
+    { path: 'Gemini', element: <GeminiChat />},
+    { path: 'ChatGPT', element: <GeminiChat />},
+    { path: 'Llama', element: <GeminiChat />},
+    { path: 'Analysis', element: <Analysis />},
+    { path: 'RAG-Data', element: <RagData />},
+])
 // Main App Component
 const App = () => {
     // State to manage sidebar visibility
@@ -20,53 +30,7 @@ const App = () => {
     };
 
     // Function to render content based on active tab
-    const renderContent = () => {
-        switch (activeTab) {
-            case 'Home':
-                return (
-                    <div className="p-6 text-gray-700">
-                        <h2 className="text-2xl font-semibold mb-4">Welcome!</h2>
-                        <p>This web app contains a cover letter written in the voice of anpther person about Nicholas Corbett and why he would be a great fit at Analog Devices.</p>
-                        <p className="mt-2">Feel free to explore the other models using the sidebar to chat with the LLMs that helped write the cover letter and use RAG to speak in 
-                            differnt peoples tone of voice.</p>
-
-                        <Card variation="elevated" className="bg-white shadow-md p-4 items-center justify-between ">
-                            <Text
-                                variation="primary"
-                                as="p"
-                                lineHeight="1.5em"
-                                fontWeight={800}
-                                fontSize="1em"
-                                fontStyle="normal"
-                                textDecoration="none"
-                                width="30vw"
-                            >
-                                Hello World!
-                            </Text>
-                            <Divider
-                                orientation="horizontal" />
-                            <Text>After</Text>
-
-                        </Card>
-
-                    </div>
-                );
-            case 'ChatGPT':
-                return (
-                    <Chatbot></Chatbot>
-                );
-            case 'Gemini':
-                return (
-                    <Chatbot></Chatbot>
-                );
-            case 'Llama':
-                return (
-                    <Chatbot></Chatbot>
-                );
-            default:
-                return null;
-        }
-    };
+    
 
     return (
         <div className="flex h-screen bg-gray-100 font-sans">
@@ -103,17 +67,19 @@ const App = () => {
                 {isSidebarOpen && (
                     <nav className="mt-4 flex-1">
                         <ul>
-                            {['Home', 'ChatGPT', 'Gemini', 'Llama', 'Analysis', 'RAG Data'].map((tab) => (
+                            {['Home', 'ChatGPT', 'Gemini', 'Llama', 'Analysis', 'RAG-Data'].map((tab) => (
                                 <li key={tab}>
                                     <button
-                                        onClick={() => setActiveTab(tab)}
+                                        onClick={() => {
+                                            setActiveTab(tab)
+                                        }}
                                         className={`block w-full text-left py-3 px-4 rounded-lg transition-colors duration-200
-                      ${activeTab === tab
+                                        ${activeTab === tab
                                                 ? 'bg-indigo-500 text-white shadow-md'
                                                 : 'text-gray-700 hover:bg-gray-100 hover:text-indigo-600'
                                             }`}
                                     >
-                                        {tab}
+                                       {tab}<link rel="stylesheet" href={"/"+tab} />
                                     </button>
                                 </li>
                             ))}
@@ -133,15 +99,9 @@ const App = () => {
                             className="text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-full p-1"
                             aria-label="Open sidebar"
                         >
-                            <svg
-                                className="w-6 h-6"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
+                            
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                            </svg>
+                            
                         </button>
                     )}
                     <h1 className="text-2xl font-bold text-gray-800 flex-grow text-center md:text-left">
@@ -156,11 +116,7 @@ const App = () => {
                 </header>
 
                 {/* Page Content */}
-                <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6">
-                    <div className="container mx-auto">
-                        {renderContent()}
-                    </div>
-                </main>
+                <RouterProvider router={router} />
             </div>
         </div>
     );
