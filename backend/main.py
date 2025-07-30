@@ -1,23 +1,32 @@
+import glob
+import os
+import pprint
+
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from google import genai
-from dotenv import load_dotenv
-import os
-import glob
-from langchain.text_splitter import CharacterTextSplitter
+"""
+from langchain.chains.conversational_retrieval.base import \
+    ConversationalRetrievalChain
 from langchain.document_loaders import DirectoryLoader, TextLoader
-from langchain_openai import OpenAIEmbeddings, ChatOpenAI
-from langchain_chroma import Chroma
 from langchain.memory import ConversationBufferMemory
-from langchain.chains.conversational_retrieval.base import ConversationalRetrievalChain
-from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder, SystemMessagePromptTemplate, HumanMessagePromptTemplate
+from langchain.prompts import (ChatPromptTemplate, HumanMessagePromptTemplate,
+                               MessagesPlaceholder,
+                               SystemMessagePromptTemplate)
 from langchain.schema import SystemMessage
-import pprint
+from langchain.text_splitter import CharacterTextSplitter
+from langchain_chroma import Chroma
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+"""
 
 pp = pprint.PrettyPrinter(indent=4)
 
 
 app = FastAPI()
 
+load_dotenv()
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 DB_NAME = 'vector_db'
 
 @app.get("/")
@@ -33,14 +42,14 @@ def chat_to_openai(messgae="Explain how AI works in a few works"):
     pass
 
 @app.get("/chat-to-gemini")
-def chat_to_gemini(message="Explain how AI works in a few words"):
+def chat_to_gemini(message="Explain how AI works in a few words", history=[]):
 
-    client = genai.Client(api_key="YOUR_API_KEY")
+    gemini_client = genai.Client(api_key=GEMINI_API_KEY)
 
-    response = client.models.generate_content(
-        model="gemini-2.5-flash", contents="Explain how AI works in a few words"
-    )
-    
+    chat = gemini_client.chats.create(model='gemini-2.5-flash', history=history)
+
+    response = chat.send_message(message=message)
+
     return response.text
 
 @app.get("/chat-to-llama")
@@ -48,10 +57,17 @@ def chat_to_llama(message="Explain how AI works in a few words"):
     pass
 
 if __name__ == "__main__":
+
+    test_history = [
+        {"role": "user", "parts": [{ "text": "Who won the All-Ireland final in 2023?"}]},
+        {"role": "model", "parts": [{ "text": "Limerick won the All-Ireland final in 2023."}]},
+        {"role": "user", "parts": [{ "text": "Who was the top scorer?"}]}
+    ]
     
-    load_dotenv()
-    OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+    chat_to_gemini()
+
     
+    '''
     init_knowledge_base = glob.glob("./test_md_creation/*")
     knowledge_base = [b for b in init_knowledge_base if '.md' in b]
     
@@ -83,7 +99,7 @@ if __name__ == "__main__":
 
     convo_chain = ConversationalRetrievalChain.from_llm(llm=llm, retriever=retreiver, memory=memory)
     
-    question = '''
+    question = """
         You are a chatbot designed to speak in a similar tone of voice to the context to Paul Golding Posts. Your job 
         is to speak positively about Nicholas Corbett from his resume and coverletter in your knowledge base.
          
@@ -95,7 +111,7 @@ if __name__ == "__main__":
         background in computer hardware and software from his undergraduate degree to going on 
         to get his masters in AI and machine learning he’s definitely the guy we’re looking for. "
     
-    '''
+    """
     
     result = convo_chain.invoke({"question": question, "chat_history": []})
     
@@ -104,3 +120,7 @@ if __name__ == "__main__":
     print()
     print()
     pp.pprint(result)
+    
+    '''
+    
+    
