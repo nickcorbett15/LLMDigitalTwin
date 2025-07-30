@@ -1,9 +1,10 @@
 import glob
 import os
 import pprint
-
+import json
+from typing import Optional
 from dotenv import load_dotenv
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from google import genai
 """
 from langchain.chains.conversational_retrieval.base import \
@@ -18,11 +19,25 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain_chroma import Chroma
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 """
+from fastapi.middleware.cors import CORSMiddleware
 
 pp = pprint.PrettyPrinter(indent=4)
 
 
 app = FastAPI()
+
+origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,          # ✅ allow frontend dev origins
+    allow_credentials=True,
+    allow_methods=["*"],            # ✅ allow all HTTP methods (GET, POST, etc.)
+    allow_headers=["*"],            # ✅ allow all headers
+)
 
 load_dotenv()
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
@@ -42,11 +57,21 @@ def chat_to_openai(messgae="Explain how AI works in a few works"):
     pass
 
 @app.get("/chat-to-gemini")
-def chat_to_gemini(message="Explain how AI works in a few words", history=[]):
+def chat_to_gemini(message="Explain how AI works in a few words", history: Optional[str] = Query(None)):
+
+   
+    try:
+        if history:
+            dict_hist = json.loads(history)
+        else:
+            dict_hist = []
+    except:
+        return {"error": "Invalid JSON format in 'history'"}
+
 
     gemini_client = genai.Client(api_key=GEMINI_API_KEY)
-
-    chat = gemini_client.chats.create(model='gemini-2.5-flash', history=history)
+    
+    chat = gemini_client.chats.create(model='gemini-2.5-flash', history=dict_hist)
 
     response = chat.send_message(message=message)
 

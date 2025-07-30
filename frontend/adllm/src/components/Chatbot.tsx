@@ -2,8 +2,14 @@ import { useState } from "react";
 
 interface GeminiMessage {
   role: 'user' | 'model';
-  parts: string[];
+  parts: GeminiParts[];
 }
+
+interface GeminiParts {
+  text: string
+}
+
+const baseUrl = import.meta.env.VITE_API_URL;
 
 export const Chatbot = () => {
   const [messages, setMessages] = useState<GeminiMessage[]>([]);
@@ -11,17 +17,33 @@ export const Chatbot = () => {
 
   const handleSendMessage = () => {
     if (input.trim()) {
-      const newMessages: GeminiMessage[] = [...messages, { role: 'user', parts: [input.trim()] }];
+      const newMessages: GeminiMessage[] = [...messages, { role: 'user', parts: [{text: input.trim()}] }];
       setMessages(newMessages);
       setInput('');
 
       // Simulate a bot response
-      setTimeout(() => {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          { role: 'model', parts: ['echo: ' + input.trim()]},
-        ]);
-      }, 500);
+      setTimeout(async () => {
+
+        const message = input.trim()
+        const history = messages ? JSON.stringify(messages) : ''
+        
+        console.log(history)
+
+        const url = `${baseUrl}/chat-to-gemini?message=${encodeURIComponent(message)}&history=${encodeURIComponent(history)}`;
+        fetch(url)
+        .then((res) => res.json())        // 🔁 Parse JSON from the response stream
+        .then((data) => {             // ✅ Now you'll see: { message: "Hello from FastAPI!" }
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            { role: 'model', parts: [{text: data}]},
+          ]);
+          
+        })
+        .catch((err) => {
+          console.error('Fetch error:', err);
+        });
+        
+      }, 200);
     }
   };
 
@@ -43,7 +65,7 @@ export const Chatbot = () => {
                     : 'bg-gray-200 text-gray-800'
                   }`}
               >
-                {msg.parts}
+                {msg.parts[0].text}
               </div>
             </div>
           ))

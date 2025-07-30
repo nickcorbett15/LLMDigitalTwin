@@ -1,6 +1,17 @@
 version: '3.9'
 
 services:
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    working_dir: /app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
   frontend:
     build:
       context: ./frontend/adllm
@@ -13,13 +24,6 @@ services:
     command: npm run dev -- --host
     depends_on:
       - backend
+    environment:
+      - VITE_API_URL=http://127.0.0.1:8000
 
-  backend:
-    build:
-      context: ./backend
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./backend:/app
-    working_dir: /app
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
