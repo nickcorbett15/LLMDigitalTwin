@@ -15,7 +15,7 @@ const router = createBrowserRouter([
             { path: '/', element: <Home/>},
             { path: '/Home', element: <Home/>},
             { path: 'Gemini', element: <GeminiChat />},
-            { path: 'ChatGPT', element: <Chatbot llm='chatgpt'/>},
+            { path: 'ChatGPT', element: <Chatbot/>},
             { path: 'Llama', element: <GeminiChat />},
             { path: 'Analysis', element: <Analysis />},
             { path: 'RAG-Data', element: <RagUpload />},
