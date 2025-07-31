@@ -1,0 +1,12 @@
+
+          I am thrilled to be applying for the position at Analogue Devices. After reviewing your job description, it’s clear that you’re looking for an enthusiastic applicant who is motivated to learn and that can be relied upon to fully engage within the role and develop professionally. Given these requirements, I believe I am the perfect candidate for the job.
+
+I have completed my masters degree in Computer Systems with a 3.49 GPA which has come from learning excellent time management skills as I have balanced a rigorous course load with collegiate athletics. Throughout my 5 years in university, I took many classes in computer science including computer architecture, micro-electronics, and artificial intelligence. I am also experienced in coding in C++, Python, C, and JavaScript. I was able to use this knowledge in many personal projects as well as in my previous work experience. 
+
+           My efforts to pay to go to college at RPI are not only a testament to how much I value my education, but they also helped establish a work ethic that has allowed me to succeed in my studies. I’ve worked construction for four summers and most holidays in order to help pay for my tuition at RPI and it has taught me a lot. In the summers I also had two technical internships as well as undergraduate research where I applied the knowledge I learned as a computer engineering student. People underestimate the benefit of good old fashion labor- you can’t be afraid to roll up your sleeves and get your hands dirty. If you are willing to work eight to ten hours a day carrying cement, bricks, timber, and dry wall up three or more flights of stairs, then studying for eight to ten hours or getting to work on cool engineering projects certainly feels like a privilege.
+	 
+After reviewing my resume, I hope you will agree that I am the type of positive and driven candidate that you are looking for.  I am excited to get the opportunity to apply the skills I’ve learned in engineering and computer science to real world experiences, and also to get the chance to learn more about the field I intend on commit my life to. 
+          Thank you for your consideration, and I look forward to hopefully hearing from you soon.
+
+Sincerely,
+Nicholas Corbett
