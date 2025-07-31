@@ -39,6 +39,7 @@ DB_NAME = 'vector_db'
 origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "https://nextjs-ai-chatbot-one-ecru-30.vercel.app/",
     VERCEL_CORS,
     VERCEL_CORS_GLOBAL
 ]
