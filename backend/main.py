@@ -2,10 +2,12 @@ import glob
 import os
 import pprint
 import json
+import random
 from typing import Dict, List, Optional
 from dotenv import load_dotenv
 from fastapi import FastAPI, Query
 from google import genai
+import numpy as np
 """
 from langchain.chains.conversational_retrieval.base import \
     ConversationalRetrievalChain
@@ -47,6 +49,63 @@ app.add_middleware(
     allow_headers=["*"],            # ✅ allow all headers
 )
 
+
+tone_chunks = None
+tone_embeddings = None
+resume_chunks = None
+resume_embeddings = None
+coverletter_chunks = None
+coverletter_embeddings = None
+
+
+def load_chunks(words, max_words=300):
+    words = words.split()
+    return [" ".join(words[i:i+max_words]) for i in range(0, len(words), max_words)]
+
+def get_embedding(text):
+    gpt_client = OpenAI(api_key=OPENAI_API_KEY) 
+    response = gpt_client.embeddings.create(
+        model="text-embedding-3-small",
+        input=text
+    )
+    return response.data[0].embedding
+
+# === Similarity scoring ===
+def cosine_similarity(a, b):
+    a, b = np.array(a), np.array(b)
+    return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
+
+def retrieve_top_chunks(question, chunks, embeddings, top_k=3):
+    q_emb = get_embedding(question)
+    scores = [cosine_similarity(q_emb, emb) for emb in embeddings]
+    top_indices = np.argsort(scores)[-top_k:][::-1]
+    return [chunks[i] for i in top_indices]
+
+@app.on_event("startup")
+async def startup_event():
+    global tone_context
+    global tone_chunks
+    global tone_embeddings
+    global resume_chunks
+    global resume_embeddings
+    global coverletter_chunks
+    global coverletter_embeddings
+    print("Getting response tone data...")
+    gpt_client = OpenAI(api_key=OPENAI_API_KEY) 
+    with open("./test_md_creation/full_output.md", "r", encoding="utf-8") as f:
+        tone_context = f.read()[:10000]
+        tone_chunks = load_chunks(tone_context, 300)
+        tone_embeddings = [get_embedding(chunk) for chunk in tone_chunks]
+    with open("./test_md_creation/resume.md", "r", encoding="utf-8") as f:
+        resume = f.read()
+        resume_chunks = load_chunks(resume, 600)
+        resume_embeddings = [get_embedding(chunk) for chunk in resume_chunks]
+    with open("./test_md_creation/coverletter.md", "r", encoding="utf-8") as f:
+        coverletter = f.read()
+        coverletter_chunks = load_chunks(coverletter, 600)
+        coverletter_embeddings = [get_embedding(chunk) for chunk in coverletter_chunks]
+    print("Tone embeddings ready.")
+    
 @app.get("/")
 def read_root():
     return {"message": "Hello from FastAPI!"}
@@ -58,17 +117,31 @@ def load_knowledge_base(md_file):
 @app.get("/chat-to-openai")
 def chat_to_openai(message="Explain how AI works in a few works", history: Optional[str] = Query(None)):
 
+    tone_style = retrieve_top_chunks(message, tone_chunks, tone_embeddings, top_k=3)
+
     if history:
         messages: List[Dict[str, str]] = json.loads(history)
     else:
         messages = []
+    
+    system_prompt = (
+        "Respond in the tone and style of the following writing sample but do not reference any headers or labels like '# Feed post number':\n\n"
+        f"{tone_style[0] if tone_style else tone_chunks[:5]}\n\n"
+        "Use only the following resume and coverletter context to describe Nicholas Corbett positively and accurately. Do not invent any details.\n\n"
+        + "\n\n---\n\nresume:".join(resume_chunks)
+        + "\n\n---\n\ncoverletter".join(coverletter_chunks)
+    )
 
+
+    messages.insert(0, {"role": "system", "content": system_prompt})
     messages.append({"role": "user", "content": message})
 
-    gpt_client = OpenAI(api_key=OPENAI_API_KEY) 
+    gpt_client = OpenAI(api_key=OPENAI_API_KEY)
     response = gpt_client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=messages
+        #model="gpt-3.5-turbo",
+        model="gpt-4",
+        messages=messages,
+        temperature=.15
     )
 
     reply = response.choices[0].message.content
@@ -102,6 +175,23 @@ def chat_to_llama(message="Explain how AI works in a few words"):
 
 if __name__ == "__main__":
 
+    
+    with open("./test_md_creation/full_output.md", "r", encoding="utf-8") as f:
+        import time
+        start = time.time()
+        
+        chunks = load_chunks(f.read(), 300)
+        med = time.time()
+        print(f"Chunk Execution time: {med - start:.4f} seconds")
+        
+        embeddings = [get_embedding(chunk) for chunk in chunks]
+        end = time.time()
+
+        print(f"Embed Execution time: {end - med:.4f} seconds")
+        print(f"Total time: {end - start:.4f} seconds")
+        print(len(embeddings))
+        print(len(chunks))
+    '''
     test_history = [
         {"role": "user", "parts": [{ "text": "Who won the All-Ireland final in 2023?"}]},
         {"role": "model", "parts": [{ "text": "Limerick won the All-Ireland final in 2023."}]},
@@ -111,7 +201,6 @@ if __name__ == "__main__":
     chat_to_gemini()
 
     
-    '''
     init_knowledge_base = glob.glob("./test_md_creation/*")
     knowledge_base = [b for b in init_knowledge_base if '.md' in b]
     
