@@ -2,7 +2,7 @@ import glob
 import os
 import pprint
 import json
-from typing import Optional
+from typing import Dict, List, Optional
 from dotenv import load_dotenv
 from fastapi import FastAPI, Query
 from google import genai
@@ -20,6 +20,7 @@ from langchain_chroma import Chroma
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 """
 from fastapi.middleware.cors import CORSMiddleware
+from openai import OpenAI
 
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -54,13 +55,28 @@ def load_knowledge_base(md_file):
     pass
 
 @app.get("/chat-to-openai")
-def chat_to_openai(messgae="Explain how AI works in a few works"):
-    pass
+def chat_to_openai(message="Explain how AI works in a few works", history: Optional[str] = Query(None)):
+
+    if history:
+        messages: List[Dict[str, str]] = json.loads(history)
+    else:
+        messages = []
+
+    messages.append({"role": "user", "content": message})
+
+    gpt_client = OpenAI(api_key=OPENAI_API_KEY) 
+    response = gpt_client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=messages
+    )
+
+    reply = response.choices[0].message.content
+
+    return reply
 
 @app.get("/chat-to-gemini")
 def chat_to_gemini(message="Explain how AI works in a few words", history: Optional[str] = Query(None)):
 
-   
     try:
         if history:
             dict_hist = json.loads(history)
@@ -71,7 +87,7 @@ def chat_to_gemini(message="Explain how AI works in a few words", history: Optio
 
 
     gemini_client = genai.Client(api_key=GEMINI_API_KEY)
-    
+
     chat = gemini_client.chats.create(model='gemini-2.5-flash', history=dict_hist)
 
     response = chat.send_message(message=message)
@@ -80,7 +96,8 @@ def chat_to_gemini(message="Explain how AI works in a few words", history: Optio
 
 @app.get("/chat-to-llama")
 def chat_to_llama(message="Explain how AI works in a few words"):
-    pass
+
+    return "TODO: Need to deploy Llama model"
 
 if __name__ == "__main__":
 
