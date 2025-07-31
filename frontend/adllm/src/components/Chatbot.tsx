@@ -9,15 +9,27 @@ interface GeminiParts {
   text: string
 }
 
+interface ChatgptMessage {
+  text: string;
+  sender: 'user' | 'bot'; 
+}
+
+interface ChatbotProps {
+  llm: 'gemini' | 'chatgpt' | 'llama'; // The llm prop can only be 'gemini' or 'chatgpt'
+}
+
 const baseUrl = import.meta.env.VITE_API_URL;
 
-export const Chatbot = () => {
-  const [messages, setMessages] = useState<GeminiMessage[]>([]);
+export const Chatbot = ({ llm }: ChatbotProps)  => {
+
+  const [messages, setMessages] = useState<(GeminiMessage | ChatgptMessage)[]>([]);
   const [input, setInput] = useState('');
 
   const handleSendMessage = () => {
     if (input.trim()) {
-      const newMessages: GeminiMessage[] = [...messages, { role: 'user', parts: [{text: input.trim()}] }];
+
+      const newMessages: (GeminiMessage | ChatgptMessage)[] = llm == 'gemini' ? [...messages, { role: 'user', parts: [{text: input.trim()}] }] : [...messages, { sender: 'user', text: input.trim()}];
+
       setMessages(newMessages);
       setInput('');
 

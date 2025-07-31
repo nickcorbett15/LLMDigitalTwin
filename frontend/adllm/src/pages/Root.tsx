@@ -51,7 +51,7 @@ export default function RootLayout() {
                 {isSidebarOpen && (
                     <nav className="mt-4 flex-1">
                         <ul>
-                            {['Home', 'ChatGPT', 'Gemini', 'Llama', 'Analysis', 'RAG-Data'].map((tab) => (
+                            {['Home', 'Gemini', 'ChatGPT', 'Llama', 'Analysis', 'RAG-Data'].map((tab) => (
                                 <li key={tab}>
                                     <button
                                         onClick={() => {
