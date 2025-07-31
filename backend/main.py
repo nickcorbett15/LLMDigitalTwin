@@ -2,6 +2,7 @@ import glob
 import os
 import pprint
 import json
+import random
 from typing import Dict, List, Optional
 from dotenv import load_dotenv
 from fastapi import FastAPI, Query
@@ -47,6 +48,19 @@ app.add_middleware(
     allow_headers=["*"],            # ✅ allow all headers
 )
 
+tone_context = ''
+resume = ''
+
+@app.on_event("startup")
+async def startup_event():
+    global tone_context
+    print("Getting response tone data...")
+    with open("./test_md_creation/full_output.md", "r", encoding="utf-8") as f:
+        tone_context = f.read()
+    with open("./test_md_creation/resume.md", "r", encoding="utf-8") as f:
+        resume = f.read()
+    print("Tone embeddings ready.")
+    
 @app.get("/")
 def read_root():
     return {"message": "Hello from FastAPI!"}
@@ -62,7 +76,25 @@ def chat_to_openai(message="Explain how AI works in a few works", history: Optio
         messages: List[Dict[str, str]] = json.loads(history)
     else:
         messages = []
+    
+    target_word_count = 5000
+    words = tone_context.split()
+    print(len(words))
+    if len(words) <= target_word_count:
+        selected_words = tone_context  # not enough words, return full
+    else:
+        start = random.randint(0, len(words) - target_word_count)
+        selected_words = words[start:start + target_word_count]
+    
+    selected_context = " ".join(selected_words)
+    system_prompt = (
+        "You are a chatbot designed to speak in the tone of voice of Pauling Golding referenced in the following text:\n\n"
+        f"{selected_context}"  # truncate if needed
+        "\n\nAnd you are to speak highly about Nicholas Corbett referenced in the following:\n\n"
+        f"{resume}"
+    )
 
+    messages.insert(0, {"role": "system", "content": system_prompt})
     messages.append({"role": "user", "content": message})
 
     gpt_client = OpenAI(api_key=OPENAI_API_KEY) 
