@@ -48,6 +48,7 @@ export default function RagUpload() {
         <>
         <div className="bg-white p-6 rounded-lg shadow-md">
       <h3 className="text-xl font-semibold mb-4 text-gray-800">Upload Documents</h3>
+      <h4>TODO: Allow upload new documents to give Models additional/latest infomation</h4>
       <div
         className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors duration-200
           ${isDragging ? 'border-indigo-500 bg-indigo-50' : 'border-gray-300 bg-gray-50 hover:bg-gray-100'}`}
