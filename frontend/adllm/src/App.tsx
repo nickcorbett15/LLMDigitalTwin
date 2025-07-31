@@ -4,8 +4,8 @@ import RootLayout from './pages/Root';
 import GeminiChat from './pages/Gemini';
 import Analysis from './pages/Analysis';
 import Home from './pages/Home';
-import { Chatbot } from './components/Chatbot';
 import RagUpload from './pages/RagUpload';
+import { GptChatbot } from './components/GptChatbot';
 
 
 
@@ -15,7 +15,7 @@ const router = createBrowserRouter([
             { path: '/', element: <Home/>},
             { path: '/Home', element: <Home/>},
             { path: 'Gemini', element: <GeminiChat />},
-            { path: 'ChatGPT', element: <Chatbot/>},
+            { path: 'ChatGPT', element: <GptChatbot/>},
             { path: 'Llama', element: <GeminiChat />},
             { path: 'Analysis', element: <Analysis />},
             { path: 'RAG-Data', element: <RagUpload />},
