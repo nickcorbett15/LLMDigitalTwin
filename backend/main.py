@@ -33,13 +33,19 @@ load_dotenv()
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 VERCEL_CORS = os.getenv('VERCEL_CORS')
-VERCEL_CORS_GLOBAL = os.getenv('VERCEL_CORS_GLOBAL')
+VERCEL_GIT_CORS = os.getenv('VERCEL_GIT_CORS')
+VERCEL_PROJECT_CORS = os.getenv('VERCEL_PROJECT_CORS')
 DB_NAME = 'vector_db'
 
 origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    VERCEL_CORS
+    "https://nextjs-ai-chatbot-one-ecru-30.vercel.app",
+    "https://nextjs-ai-chatbot-git-main-nicks-projects-abd518f3.vercel.app",
+    "https://nextjs-ai-chatbot-851hl1fse-nicks-projects-abd518f3.vercel.app",
+    VERCEL_CORS,
+    VERCEL_GIT_CORS,
+    VERCEL_PROJECT_CORS
 ]
 
 app.add_middleware(
@@ -64,7 +70,7 @@ def load_chunks(words, max_words=300):
     return [" ".join(words[i:i+max_words]) for i in range(0, len(words), max_words)]
 
 def get_embedding(text):
-    gpt_client = OpenAI(api_key=OPENAI_API_KEY) 
+    gpt_client = OpenAI(api_key=OPENAI_API_KEY)
     response = gpt_client.embeddings.create(
         model="text-embedding-3-small",
         input=text
