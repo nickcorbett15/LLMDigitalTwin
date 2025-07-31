@@ -27,10 +27,16 @@ pp = pprint.PrettyPrinter(indent=4)
 
 app = FastAPI()
 
+load_dotenv()
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+VERCEL_CORS = os.getenv('VERCEL_CORS')
+DB_NAME = 'vector_db'
+
 origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "https://nextjs-ai-chatbot-i744pck7i-nicks-projects-abd518f3.vercel.app"
+    VERCEL_CORS
 ]
 
 app.add_middleware(
@@ -40,11 +46,6 @@ app.add_middleware(
     allow_methods=["*"],            # ✅ allow all HTTP methods (GET, POST, etc.)
     allow_headers=["*"],            # ✅ allow all headers
 )
-
-load_dotenv()
-GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-DB_NAME = 'vector_db'
 
 @app.get("/")
 def read_root():
