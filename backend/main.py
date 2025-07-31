@@ -151,11 +151,35 @@ def chat_to_openai(message="Explain how AI works in a few works", history: Optio
 @app.get("/chat-to-gemini")
 def chat_to_gemini(message="Explain how AI works in a few words", history: Optional[str] = Query(None)):
 
+    
+
+    enhanced_message = f"""System Instructions: 
+        Respond naturally and positively to the user’s question:
+        {message}
+        
+        If asked about Nicholas Corbett Only use the resume and cover letter below — do not make up any details.
+        
+        Context:
+        Resume: {resume_chunks}
+        Cover Letter: {coverletter_chunks}
+
+        Write in the tone, vocabulary, and style of Paul Golding, based on the examples here:
+        {tone_chunks[:5]}
+
+    """
+
     try:
         if history:
             dict_hist = json.loads(history)
+            dict_hist.insert(0, {
+                "role": "user",
+                "parts": [{"text": f"System: {enhanced_message}"}]
+            })
         else:
-            dict_hist = []
+            dict_hist = [{
+                "role": "user",
+                "parts": [{"text": f"System: {enhanced_message}"}]
+            }]
     except:
         return {"error": "Invalid JSON format in 'history'"}
 
