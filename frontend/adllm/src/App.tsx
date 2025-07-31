@@ -2,10 +2,10 @@ import '@aws-amplify/ui-react/styles.css'; // Import Amplify UI styles
 import { createBrowserRouter, RouterProvider} from 'react-router-dom';
 import RootLayout from './pages/Root';
 import GeminiChat from './pages/Gemini';
-import RagData from './pages/RagData';
 import Analysis from './pages/Analysis';
 import Home from './pages/Home';
 import { Chatbot } from './components/Chatbot';
+import RagUpload from './pages/RagUpload';
 
 
 
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
             { path: 'ChatGPT', element: <Chatbot llm='chatgpt'/>},
             { path: 'Llama', element: <GeminiChat />},
             { path: 'Analysis', element: <Analysis />},
-            { path: 'RAG-Data', element: <RagData />},
+            { path: 'RAG-Data', element: <RagUpload />},
         ]
     }
 ])
