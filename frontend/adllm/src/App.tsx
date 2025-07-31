@@ -6,6 +6,7 @@ import Analysis from './pages/Analysis';
 import Home from './pages/Home';
 import RagUpload from './pages/RagUpload';
 import { GptChatbot } from './components/GptChatbot';
+import Llama from './pages/Llama';
 
 
 
@@ -16,7 +17,7 @@ const router = createBrowserRouter([
             { path: '/Home', element: <Home/>},
             { path: 'Gemini', element: <GeminiChat />},
             { path: 'ChatGPT', element: <GptChatbot/>},
-            { path: 'Llama', element: <h1>TODO Implement Llama functionality</h1>},
+            { path: 'Llama', element: <Llama/>},
             { path: 'Analysis', element: <Analysis />},
             { path: 'RAG-Data', element: <RagUpload />},
         ]

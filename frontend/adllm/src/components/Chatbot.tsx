@@ -52,7 +52,7 @@ export const Chatbot = ()  => {
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md flex flex-col h-96"> {/* Fixed height for chat window */}
+    <div className="bg-white p-4 rounded-lg shadow-md flex flex-col h-196"> {/* Fixed height for chat window */}
       <div className="flex-1 overflow-y-auto mb-4 pr-2"> {/* Message display area */}
         {messages.length === 0 ? (
           <p className="text-gray-500 text-center mt-8">Start chatting by typing a message below!</p>

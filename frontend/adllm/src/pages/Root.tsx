@@ -99,8 +99,10 @@ export default function RootLayout() {
                         </div>
                     </div>
                 </header>
-
-                <Outlet/>
+                <div className="p-6 text-gray-700">
+                    <Outlet/>
+                </div>
+                
             </div>
         </div>
 
